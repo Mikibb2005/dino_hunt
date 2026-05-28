@@ -1,5 +1,11 @@
 typedef enum
 {
+    PISTOL,
+    RIFLE,
+}Type;
+
+typedef enum
+{
     NOT,
     FIRE,
     ICE,
@@ -72,6 +78,7 @@ class Gun
             m_bullet_velocity = 0.0f;
             m_prob_critical = 0.0;
             m_power = NOT;
+            m_type = PISTOL;
 
             m_muzzle_accessory = NONE_Muzzle;
             m_barrel_accessory = NONE_barrel;
@@ -85,7 +92,7 @@ class Gun
 
         Gun(double damage, float cadence, double dispersion, double recoil, int scope_range,
             double recharge_velocity, int charger_size, float wheight, float bullet_velocity,
-            double prob_critical, Type_power power,
+            double prob_critical, Type_power power, Type type,
             muzzle muzzle_accesory, barrel barrel_accesory, scope scope_accesory, stock stock_accesory,
             rear_grip rear_grip_accesory, ammo ammo_accesory, mount mount_accesory, extra_accessory extra_accessory)
         {
@@ -100,6 +107,7 @@ class Gun
             m_bullet_velocity = bullet_velocity;
             m_prob_critical = prob_critical;
             m_power = power;
+            m_type = type;
 
             m_muzzle_accessory = muzzle_accesory;
             m_barrel_accessory = barrel_accesory;
@@ -125,6 +133,7 @@ class Gun
         float getBulletVelocity() const { return m_bullet_velocity; }
         double getProbCritical() const { return m_prob_critical; }
         Type_power getPower() const { return m_power; }
+        Type getType() const { return m_type; }
 
         muzzle getMuzzleAccessory() const { return m_muzzle_accessory; }
         barrel getBarrelAccessory() const { return m_barrel_accessory; }
@@ -147,6 +156,7 @@ class Gun
         void setBulletVelocity(float bullet_velocity) { m_bullet_velocity = bullet_velocity; }
         void setProbCritical(double prob_critical) { m_prob_critical = prob_critical; }
         void setPower(Type_power power) { m_power = power; }
+        void setType(Type type) { m_type = type; }
 
         void setMuzzleAccessory(muzzle muzzle_accessory) { m_muzzle_accessory = muzzle_accessory; }
         void setBarrelAccessory(barrel barrel_accessory) { m_barrel_accessory = barrel_accessory; }
@@ -171,6 +181,7 @@ class Gun
         float m_bullet_velocity;
         double m_prob_critical;
         Type_power m_power;
+        Type m_type;
 
         // ---- ACCESORIES ----
         muzzle m_muzzle_accessory;
