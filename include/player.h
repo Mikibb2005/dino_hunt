@@ -49,6 +49,7 @@
             //void setGun(Gun g) {  }
 
             void draw_player();
+            void update_player();
 
         private:
             int m_health;

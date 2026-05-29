@@ -40,8 +40,6 @@ int main()
     //Inicializar ventana
     InitWindow(screen_width, screen_height, "Game-dev");
 
-    BeginDrawing();
-
     // Inicializar sistema de sonido
     //SoundSystem soundSystem;
     InitAudioDevice();
@@ -64,18 +62,26 @@ int main()
     cam.rotation = 0.0f;
     cam.zoom = 1.0f;
  
-    BeginMode2D(cam);
-    while(1)
+    while(!WindowShouldClose())
     {
+        //TODO
+        //player.update_player();
+
+
+        BeginDrawing();
+
+        ClearBackground(BLACK);
+        BeginMode2D(cam);
+
         player.draw_player();
         //printf("%d , %d\n", int(player.getPosition().x), int(player.getPosition().y));
+
+
+        EndMode2D();
+        EndDrawing();
     }
 
-
-
-    EndMode2D();
     CloseAudioDevice();
-    EndDrawing();
     CloseWindow();
     return 0;
 }
