@@ -1,7 +1,10 @@
 typedef enum
 {
+    NONE,
     PISTOL,
     RIFLE,
+    BAT,
+    KNIFE,
 }Type;
 
 typedef enum
@@ -78,7 +81,7 @@ class Gun
             m_bullet_velocity = 0.0f;
             m_prob_critical = 0.0;
             m_power = NOT;
-            m_type = PISTOL;
+            m_type = NONE;
 
             m_muzzle_accessory = NONE_Muzzle;
             m_barrel_accessory = NONE_barrel;
@@ -168,6 +171,10 @@ class Gun
         void setExtraAccessory(extra_accessory extra_accessory_value) { m_extra_accessory = extra_accessory_value; }
 
 
+        void create_pistol();
+        void create_rifle();
+        void create_knife();
+        void create_bat();
     private:
         // ---- STATS ----
         double m_damage;

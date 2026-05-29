@@ -25,8 +25,9 @@
 
 
 #include "../raylib-5.5_linux_amd64/include/raylib.h"
-#include "../include/guns.h"
+//#include "../include/guns.h"
 #include "../include/player.h"
+#include <cstdio>
 
 
 //VARIABLES DE SISTEMA
@@ -39,6 +40,8 @@ int main()
     //Inicializar ventana
     InitWindow(screen_width, screen_height, "Game-dev");
 
+    BeginDrawing();
+
     // Inicializar sistema de sonido
     //SoundSystem soundSystem;
     InitAudioDevice();
@@ -47,20 +50,32 @@ int main()
     SetExitKey(0);
     SetTargetFPS(60);
 
-    //TODO: clase Player
-    //Player player;
+    //Creamos el player
+    Player player = {};
+    player.setPosition(500.0f,600.0f);
 
+    // Creamos la camara
+    // TODO: Hay que centrar la camara a las coordenadas del player
     Camera2D cam = {};
 
+    
+    cam.target = player.getPosition();
+    cam.offset = {(float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f};
+    cam.rotation = 0.0f;
+    cam.zoom = 1.0f;
+ 
+    BeginMode2D(cam);
     while(1)
     {
-        
+        player.draw_player();
+        //printf("%d , %d\n", int(player.getPosition().x), int(player.getPosition().y));
     }
 
 
 
-
+    EndMode2D();
     CloseAudioDevice();
+    EndDrawing();
     CloseWindow();
     return 0;
 }

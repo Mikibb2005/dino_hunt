@@ -6,17 +6,15 @@
     {
         public:
             Player()
-            {
-                m_health = 100;
-                m_endurance = 100.0f;
-                m_stamina = 100;
-                m_velocity = 5.0f;
-                m_aim_direction = {1.0f, 0.0f};
-                m_position = {0.0f, 0.0f};
-            }
+                : m_health(100),
+                m_endurance(100.0f),
+                m_stamina(100),
+                m_velocity(5.0f),
+                m_aim_direction({1.0f, 0.0f}),
+                m_position({0.0f, 0.0f})
+            { }
 
-            Player(int health, float endurance, int stamina, float velocity,
-                Vector2 aim_direction, Vector2 position)
+            Player(int health, float endurance, int stamina, float velocity, Vector2 aim_direction, Vector2 position)
             {
                 m_health = health;
                 m_endurance = endurance;
@@ -48,6 +46,9 @@
             {
                 m_position = { x, y };
             }
+            //void setGun(Gun g) {  }
+
+            void draw_player();
 
         private:
             int m_health;
