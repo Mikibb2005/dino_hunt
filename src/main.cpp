@@ -24,9 +24,10 @@
  ******************************************************************************/
 
 
-#include "../raylib-5.5_linux_amd64/include/raylib.h"
+#include "../raylib-6.0_linux_amd64/include/raylib.h"
 //#include "../include/guns.h"
 #include "../include/player.h"
+#include "../include/map.h"
 #include <cstdio>
 
 
@@ -61,11 +62,19 @@ int main()
     cam.offset = {(float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f};
     cam.rotation = 0.0f;
     cam.zoom = 1.0f;
+
+    Map m_map;
+    //TODO:asignar archivo
+    m_map.setFile("resources/mapa.png");
+    m_map.load_texture();
+    printf("Texture ID: %d\n", m_map.getTexture().id);
+    
  
     while(!WindowShouldClose())
     {
-        //TODO
-        //player.update_player();
+        //TODO        
+        player.update_player();
+        cam.target = player.getPosition();
 
 
         BeginDrawing();
@@ -73,13 +82,17 @@ int main()
         ClearBackground(BLACK);
         BeginMode2D(cam);
 
+        m_map.draw_map();
         player.draw_player();
         //printf("%d , %d\n", int(player.getPosition().x), int(player.getPosition().y));
 
 
         EndMode2D();
+        DrawFPS(screen_width - 80, 10);
         EndDrawing();
     }
+
+    UnloadTexture(m_map.getTexture());
 
     CloseAudioDevice();
     CloseWindow();
