@@ -12,10 +12,12 @@
                 m_stamina(100),
                 m_velocity(5.0f),
                 m_aim_direction({1.0f, 0.0f}),
-                m_position({0.0f, 0.0f})
+                m_position({0.0f, 0.0f}),
+                num_bullets(0),
+                m_active_gun(0)             
             { }
 
-            Player(int health, float endurance, int stamina, float velocity, Vector2 aim_direction, Vector2 position)
+            Player(int health, float endurance, int stamina, float velocity, Vector2 aim_direction, Vector2 position, int bullets)
             {
                 m_health = health;
                 m_endurance = endurance;
@@ -23,6 +25,7 @@
                 m_velocity = velocity;
                 m_aim_direction = aim_direction;
                 m_position = position;
+                num_bullets = bullets;
             }
 
             ~Player() = default;
@@ -34,6 +37,7 @@
             Vector2 getAimDirection() const { return m_aim_direction; }
             Vector2 getPosition() const { return m_position; }
             Gun* getGuns() { return m_guns; } // array de 3 armas
+            int getNumBullets() { return num_bullets; }
 
             void setHealth(int health) { m_health = health; }
             void setEndurance(float endurance) { m_endurance = endurance; }
@@ -47,6 +51,7 @@
             {
                 m_position = { x, y };
             }
+            void setNumBullets(int i) { num_bullets = i; }
             //void setGun(Gun g) {  }
 
             void draw_player();
@@ -60,4 +65,6 @@
             Gun m_guns[3];
             Vector2 m_aim_direction;
             Vector2 m_position;
+            int num_bullets;
+            int m_active_gun;
     };

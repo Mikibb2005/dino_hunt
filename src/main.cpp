@@ -89,6 +89,7 @@ int main()
 
         EndMode2D();
         DrawFPS(screen_width - 80, 10);
+        DrawText(TextFormat("X: %.0f  Y: %.0f", player.getPosition().x, player.getPosition().y), 10, 10, 20, WHITE);
         EndDrawing();
     }
 
