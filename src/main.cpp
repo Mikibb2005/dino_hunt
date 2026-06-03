@@ -29,6 +29,7 @@
 #include "../include/player.h"
 #include "../include/map.h"
 #include "../include/ui.h"
+#include "../include/enemy.h"
 #include <cstdio>
 
 
@@ -59,17 +60,25 @@ int main()
     // TODO: Hay que centrar la camara a las coordenadas del player
     Camera2D cam = {};
 
-    
     cam.target = player.getPosition();
     cam.offset = {(float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f};
     cam.rotation = 0.0f;
     cam.zoom = 1.0f;
 
+    // Creamos el mapa y cargamos la textura
     Map m_map;
     //TODO:asignar archivo
     m_map.setFile("resources/mapa.png");
     m_map.load_texture();
     printf("Texture ID: %d\n", m_map.getTexture().id);
+
+    //creamos los enemies
+    EnemyManager m_enemies;
+    Enemy a1;
+    a1 = Enemy();
+    m_enemies.add_enemy(a1);
+
+
     bool paused = false;
  
     while(!WindowShouldClose() && !close)
@@ -79,7 +88,8 @@ int main()
         if (!paused)
         {
             //TODO        
-            player.update_player();
+            player.update_player(m_enemies);
+            m_enemies.update_all();
             cam.target = player.getPosition();
         }
         else
@@ -95,6 +105,7 @@ int main()
 
         m_map.draw_map();
         player.draw_player();
+        m_enemies.draw_all();
         //printf("%d , %d\n", int(player.getPosition().x), int(player.getPosition().y));
 
 

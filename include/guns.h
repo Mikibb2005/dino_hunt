@@ -1,3 +1,5 @@
+#pragma once
+
 enum Gun_type
 {
     NO,
