@@ -28,12 +28,14 @@
 //#include "../include/guns.h"
 #include "../include/player.h"
 #include "../include/map.h"
+#include "../include/ui.h"
 #include <cstdio>
 
 
 //VARIABLES DE SISTEMA
 int screen_width = 1280;
 int screen_height = 720;
+bool close = false;
 
 
 int main()
@@ -68,13 +70,22 @@ int main()
     m_map.setFile("resources/mapa.png");
     m_map.load_texture();
     printf("Texture ID: %d\n", m_map.getTexture().id);
-    
+    bool paused = false;
  
-    while(!WindowShouldClose())
+    while(!WindowShouldClose() && !close)
     {
-        //TODO        
-        player.update_player();
-        cam.target = player.getPosition();
+        if (IsKeyPressed(KEY_ESCAPE)) paused = !paused;
+
+        if (!paused)
+        {
+            //TODO        
+            player.update_player();
+            cam.target = player.getPosition();
+        }
+        else
+        {
+            if (pause_menu()) paused = false;
+        }
 
 
         BeginDrawing();
@@ -88,9 +99,16 @@ int main()
 
 
         EndMode2D();
+
+        if(paused)
+        {
+            draw_pause_menu();
+        }
+
         DrawFPS(screen_width - 80, 10);
         DrawText(TextFormat("X: %.0f  Y: %.0f", player.getPosition().x, player.getPosition().y), 10, 10, 20, WHITE);
         EndDrawing();
+        close = close_g();
     }
 
     UnloadTexture(m_map.getTexture());

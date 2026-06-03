@@ -29,7 +29,7 @@ void Player::update_player()
     {
         m_position.y = m_position.y + steeps;
     }
-    if(IsKeyDown(MOUSE_BUTTON_LEFT))
+    if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
     {
         if(m_guns[m_active_gun].can_fire())
         {
@@ -42,4 +42,5 @@ void Player::update_player()
         printf("Recargando %d balas... \n", m_guns[m_active_gun].getChargerSize());
     }
     
+
 }

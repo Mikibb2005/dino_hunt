@@ -1,12 +1,9 @@
+#include "../raylib-6.0_linux_amd64/include/raylib.h"
 
 
-const int n_pause_options = 4;
+const int num_options = 4;
 
-class Ui
-{
-    public:
-        
 
-    private:
-        int pause_menu_selection[n_pause_options];
-};
+void draw_pause_menu();
+bool close_g();
+bool pause_menu();
