@@ -4,38 +4,27 @@
 
 
 const int MAP_WIDTH = 800;
-const  int MAP_HEIGHT = 800;
-
+const int MAP_HEIGHT = 800;
 
 class Map
 {
     public:
         Map()
         {
-            m_file = nullptr;
+            // MIGRACIÓN: Inicializar el grid del mapa aquí
         }
         ~Map() { }
-        void setTexture(Texture2D t) { m_texture = t; }
-        void setSizeX(int x) { size_x = x; }
-        void setSizeY(int y) { size_y = y; }
-        void setRender(RenderTexture2D r) { m_render = r; }
-        void setFile(const char *f) { m_file = f; }
-        
-        
-        Texture2D getTexture() { return m_texture; }
+
         int getSizeX() const {return size_x;}
         int getSizeY() const {return size_y;}
-        RenderTexture2D getRender() { return m_render; }
-        const char* getFile() {return m_file; }
 
-        void load_texture();
-        void render_texture();
-        void draw_map();
+        int getCell(int x, int y);
+        void draw_map(Camera3D cam); //para paredes en 3D
+        void DrawCube();
 
     private:
         int size_x = MAP_WIDTH;
         int size_y = MAP_HEIGHT;
-        Texture2D m_texture;
-        RenderTexture2D m_render;
-        const char *m_file;
+        int m_grid[MAP_WIDTH][MAP_HEIGHT];
+        Texture2D m_wall_textures[];
 };

@@ -3,6 +3,7 @@
 #include "../raylib-6.0_linux_amd64/include/raylib.h"
 #include <vector>
 #include "guns.h"
+
 enum EnemyState
 {
     STOPED,
@@ -28,12 +29,9 @@ class Enemy
             a.create_pistol();
             m_weapon = a;
             m_state = STOPED;
-            m_hitbox = Rectangle{m_position.x, m_position.y, (float)ENEMY_SIZE, (float)ENEMY_SIZE};
         }
 
-        Rectangle getHitbox() const { return m_hitbox; }
-
-
+        // TODO:Hacer el getHitbox() con colisión esférica/cilíndrica
 
         void enemy_update();
         void enemy_draw();
@@ -47,7 +45,15 @@ class Enemy
         float m_damage; //multiplicador de daño (por el de la gun)
         Gun m_weapon;
         EnemyState m_state;
-        Rectangle m_hitbox;
+
+        //TODO: poner el colsion en 3D
+
+        float m_facing_angle; // direccion del enemigo
+
+        //controlar las animaciones de los sprites
+        int m_anim_frame;
+        float m_anim_timer;
+        Texture2D m_spritesheet; //para sprites direccionales (4 dirs × N frames)
 };
 
 class EnemyManager
@@ -55,13 +61,10 @@ class EnemyManager
     public:
         const std::vector<Enemy>& getEnemies() const { return m_enemies; }
 
-
-
         void update_all();
         void draw_all();
         void check_hits(); 
         void add_enemy(Enemy a) { m_enemies.push_back(a); }
-
 
     private:
         std::vector<Enemy> m_enemies;

@@ -1,10 +1,10 @@
 /******************************************************************************
  * Archivo: main.cpp
  * Autor:   Miguel Blánquez Bravo
- * Fecha:   28-05-2026
+ * Fecha:   04-06-2026
  *
  * Descripción:
- * 
+ * Dino Hunt
  *
  * ---------------------------------------------------------------------------
  * COPYRIGHT NOTICE / AVISO DE DERECHOS DE AUTOR
@@ -25,12 +25,13 @@
 
 
 #include "../raylib-6.0_linux_amd64/include/raylib.h"
-//#include "../include/guns.h"
 #include "../include/player.h"
 #include "../include/map.h"
 #include "../include/ui.h"
 #include "../include/enemy.h"
 #include <cstdio>
+
+#define EYE_HEIGHT 1
 
 
 //VARIABLES DE SISTEMA
@@ -39,13 +40,13 @@ int screen_height = 720;
 bool close = false;
 
 
+
 int main()
 {
     //Inicializar ventana
-    InitWindow(screen_width, screen_height, "Game-dev");
+    InitWindow(screen_width, screen_height, "Dino Hunt");
 
     // Inicializar sistema de sonido
-    //SoundSystem soundSystem;
     InitAudioDevice();
 
     // Hacer que ESC no cierre la ventana / limitar fps a 60
@@ -53,24 +54,20 @@ int main()
     SetTargetFPS(60);
 
     //Creamos el player
-    Player player = {};
-    player.setPosition(500.0f,600.0f);
+    Player m_player = {};
+    m_player.setPosition(500.0f,600.0f);
 
-    // Creamos la camara
-    // TODO: Hay que centrar la camara a las coordenadas del player
-    Camera2D cam = {};
+    // camara 3d configurada
+    Camera3D m_cam = {};
+    m_cam.position = { m_player.getPosition().x, EYE_HEIGHT, m_player.getPosition().y };
+    m_cam.target = { };
+    m_cam.up = { 0.0f, 1.0f, 0.0f };
+    m_cam.fovy = 60.0f;
+    m_cam.projection = CAMERA_PERSPECTIVE;
 
-    cam.target = player.getPosition();
-    cam.offset = {(float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f};
-    cam.rotation = 0.0f;
-    cam.zoom = 1.0f;
-
-    // Creamos el mapa y cargamos la textura
+    // Creamos el mapa
     Map m_map;
-    //TODO:asignar archivo
-    m_map.setFile("resources/mapa.png");
-    m_map.load_texture();
-    printf("Texture ID: %d\n", m_map.getTexture().id);
+    //TODO:falta cargar el grid del mapa y de las paredes
 
     //creamos los enemies
     EnemyManager m_enemies;
@@ -87,10 +84,9 @@ int main()
 
         if (!paused)
         {
-            //TODO        
-            player.update_player(m_enemies, m_map);
+            m_player.update_player(m_enemies, m_map);
             m_enemies.update_all();
-            cam.target = player.getPosition();
+            //TODO: me falta actualizar cam.position y cam.target
         }
         else
         {
@@ -101,15 +97,13 @@ int main()
         BeginDrawing();
 
         ClearBackground(BLACK);
-        BeginMode2D(cam);
 
-        m_map.draw_map();
-        player.draw_player();
-        m_enemies.draw_all();
-        //printf("%d , %d\n", int(player.getPosition().x), int(player.getPosition().y));
+        BeginMode3D(m_cam);
+        // TODO: tengo que hacer el draw de suelo + paredes con DrawCube()
+        // TODO: dibujar enemigos como billboards
+        EndMode3D();
 
-
-        EndMode2D();
+        //TODO: Aqui se dibuja el HUD
 
         if(paused)
         {
@@ -117,12 +111,11 @@ int main()
         }
 
         DrawFPS(screen_width - 80, 10);
-        DrawText(TextFormat("X: %.0f  Y: %.0f", player.getPosition().x, player.getPosition().y), 10, 10, 20, WHITE);
         EndDrawing();
         close = close_g();
     }
 
-    UnloadTexture(m_map.getTexture());
+    // TODO: Unloadear texturas del mapa
 
     CloseAudioDevice();
     CloseWindow();

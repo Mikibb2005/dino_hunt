@@ -8,7 +8,11 @@ void Enemy::enemy_update()
         
 void Enemy::enemy_draw()
 {
-    DrawRectangle(int(m_position.x),int(m_position.y), ENEMY_SIZE, ENEMY_SIZE, RED);
+    //TODO: DrawBillboardRec();
+    //   1. Calcular ángulo relativo jugador→enemigo vs m_facing_angle
+    //   2. Seleccionar fila del spritesheet (frente/espalda/izq/der)
+    //   3. Seleccionar columna según m_anim_frame
+    //   4. DrawBillboardRec(camera, spritesheet, srcRect, pos3D, size, WHITE)
 }
 
 void Enemy::take_damage()

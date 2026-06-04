@@ -1,24 +1,18 @@
 #include "../include/map.h"
 
-void Map::load_texture()
-{
-    if(m_file)
-    {
-        m_texture = LoadTexture(m_file);
-    }
-}
+// MIGRACIÓN: load_texture() eliminado
+// Antes cargaba una imagen PNG como textura del mapa.
+// Reimplementar: cargar texturas de pared individuales (Texture2D por tipo de tile)
 
-void Map::render_texture()
-{
-    
-}
+// MIGRACIÓN: render_texture() eliminado
 
-void Map::draw_map()
+// MIGRACIÓN: draw_map() eliminado
+// Antes: DrawTexture(m_texture, 0, 0, WHITE)
+// Reimplementar: recorrer el grid, por cada celda con valor > 0 dibujar
+void Map::DrawCube()
 {
-    if(m_file != nullptr)
-    {
-        //load_texture();
-        //render_texture();
-        DrawTexture(m_texture, 0, 0, WHITE);
-    }
+    for (int x = 0; x < size_x; x++)
+        for (int z = 0; z < size_y; z++)
+            if (m_grid[x][z] > 0)
+                DrawCube({x*TILE_SIZE, WALL_HEIGHT/2, z*TILE_SIZE}, TILE_SIZE, WALL_HEIGHT, TILE_SIZE, GRAY);
 }
