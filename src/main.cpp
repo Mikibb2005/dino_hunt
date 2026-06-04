@@ -30,13 +30,16 @@
 #include "../include/ui.h"
 #include "../include/enemy.h"
 #include <cstdio>
+#include <math.h>
 
-#define EYE_HEIGHT 1
 
 
 //VARIABLES DE SISTEMA
 int screen_width = 1280;
 int screen_height = 720;
+
+
+
 bool close = false;
 
 
@@ -80,13 +83,26 @@ int main()
  
     while(!WindowShouldClose() && !close)
     {
-        if (IsKeyPressed(KEY_ESCAPE)) paused = !paused;
+        if (IsKeyPressed(KEY_ESCAPE) || (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT))) paused = !paused;
 
         if (!paused)
         {
             m_player.update_player(m_enemies, m_map);
+            //m_player.setHealth(m_player.getHealth() - 1);
+
+            float angle = m_player.getAngle();
+            float pitch = m_player.getPitch();
+            Vector2 pos = m_player.getPosition();
+            m_cam.position = { pos.x, EYE_HEIGHT, pos.y };
+            m_cam.target = 
+            {
+                m_cam.position.x + cosf(pitch) * cosf(angle),
+                m_cam.position.y + sinf(pitch),
+                m_cam.position.z + cosf(pitch) * sinf(angle)
+            };
+
             m_enemies.update_all();
-            //TODO: me falta actualizar cam.position y cam.target
+            
         }
         else
         {
@@ -99,11 +115,13 @@ int main()
         ClearBackground(BLACK);
 
         BeginMode3D(m_cam);
-        // TODO: tengo que hacer el draw de suelo + paredes con DrawCube()
+        m_map.draw_paredes();
         // TODO: dibujar enemigos como billboards
+        //TODO: dibujar los dinos como billboards
         EndMode3D();
 
         //TODO: Aqui se dibuja el HUD
+        draw_hud(screen_height, screen_width, m_player.getActiveGun(), m_player.getHealth());
 
         if(paused)
         {

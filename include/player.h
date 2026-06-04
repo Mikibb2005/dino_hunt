@@ -14,10 +14,10 @@ public:
   Player()
       : m_health(100), m_endurance(100.0f), m_stamina(100), m_velocity(5.0f),
         m_position({0.0f, 0.0f}), num_bullets(0),
-        m_active_gun(0) {}
+        m_active_gun(0), m_angle(0.0f), m_pitch(0.0f) {}
 
-  Player(int health, float endurance, int stamina, float velocity,
-         Vector2 position, int bullets) {
+  Player(int health, float endurance, int stamina, float velocity, Vector2 position, int bullets, float angle, float pitch) 
+  {
     m_health = health;
     m_endurance = endurance;
     m_stamina = stamina;
@@ -25,6 +25,8 @@ public:
     m_position = position;
     num_bullets = bullets;
     m_active_gun = 0;
+    m_angle = angle;
+    m_pitch = pitch;
   }
 
   ~Player() = default;
@@ -36,6 +38,9 @@ public:
   Vector2 getPosition() const { return m_position; }
   Gun *getGuns() { return m_guns; } // array de 3 armas
   int getNumBullets() { return num_bullets; }
+  float getAngle() { return m_angle; }
+  float getPitch() { return m_pitch; }
+  Gun getActiveGun() {return m_guns[m_active_gun];}
 
   void setHealth(int health) { m_health = health; }
   void setEndurance(float endurance) { m_endurance = endurance; }
@@ -61,5 +66,6 @@ private:
   int num_bullets;
   int m_active_gun;
 
-  float m_angle;
+  float m_angle; //angulo horizontal
+  float m_pitch; //inclinacion vertical
 };
