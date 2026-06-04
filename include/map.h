@@ -1,10 +1,12 @@
 #pragma once
 
 #include "../raylib-6.0_linux_amd64/include/raylib.h"
+#include <vector>
+#include <string>
 
 
-const int MAP_WIDTH = 800;
-const int MAP_HEIGHT = 800;
+//const int MAP_WIDTH = 800;
+//const int MAP_HEIGHT = 800;
 
 const float TILE_SIZE = 64.0f;
 const float WALL_HEIGHT = 128.0f;
@@ -38,7 +40,11 @@ class Map
                 }
             }
         }
+        
         ~Map() { }
+
+        bool load_from_csv(const std::string& filepath);
+
 
         int getSizeX() const {return size_x;}
         int getSizeY() const {return size_y;}
@@ -48,8 +54,8 @@ class Map
         void draw_paredes();
 
     private:
-        int size_x = MAP_WIDTH;
-        int size_y = MAP_HEIGHT;
-        int m_grid[MAP_WIDTH][MAP_HEIGHT];
-        Texture2D m_wall_textures[];
+        int size_x = 0;
+        int size_y = 0;
+        std::vector<std::vector<int>> m_grid;
+        Texture2D m_wall_texture;
 };

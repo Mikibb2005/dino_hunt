@@ -1,51 +1,42 @@
 #include "../include/enemy.h"
 #include <cstddef>
 
-void Enemy::enemy_update()
-{
+void Enemy::enemy_update(float deltaTime, ModelAnimation* anims, int animCount) {}
 
-}
-        
-void Enemy::enemy_draw()
+void Enemy::enemy_draw(Model& model, ModelAnimation* anims, int animCount) 
 {
-    //TODO: DrawBillboardRec();
-    //   1. Calcular ángulo relativo jugador→enemigo vs m_facing_angle
-    //   2. Seleccionar fila del spritesheet (frente/espalda/izq/der)
-    //   3. Seleccionar columna según m_anim_frame
-    //   4. DrawBillboardRec(camera, spritesheet, srcRect, pos3D, size, WHITE)
+  // TODO: DrawBillboardRec();
+  //    1. Calcular ángulo relativo jugador→enemigo vs m_facing_angle
+  //    2. Seleccionar fila del spritesheet (frente/espalda/izq/der)
+  //    3. Seleccionar columna según m_anim_frame
+  //    4. DrawBillboardRec(camera, spritesheet, srcRect, pos3D, size, WHITE)
 }
 
-void Enemy::take_damage()
-{
+void Enemy::take_damage() {}
 
+bool Enemy::is_dead() 
+{
+  if (m_health <= 0) 
+  {
+    return true;
+  }
+  return false;
 }
 
-bool Enemy::is_dead()
+void EnemyManager::update_all(float deltaTime) 
 {
-    if(m_health <= 0)
-    {
-        return true;
-    }
-    return false;
+  for (size_t i = 0; i < m_enemies.size(); i++) 
+  {
+    m_enemies[i].enemy_update(deltaTime, m_enemy_anims, m_anim_count);
+  }
 }
 
-void EnemyManager::update_all()
+void EnemyManager::draw_all() 
 {
-    for(size_t i = 0; i < m_enemies.size(); i++)
-    {
-        m_enemies[i].enemy_update();
-    }
+  for (size_t i = 0; i < m_enemies.size(); i++) 
+  {
+    m_enemies[i].enemy_draw(m_enemy_model, m_enemy_anims, m_anim_count);
+  }
 }
-        
-void EnemyManager::draw_all()
-{
-    for(size_t i = 0; i < m_enemies.size(); i++)
-    {
-        m_enemies[i].enemy_draw();
-    }
-}
-        
-void EnemyManager::check_hits()
-{
 
-} 
+void EnemyManager::check_hits() {}
