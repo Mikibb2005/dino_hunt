@@ -1,9 +1,13 @@
 #pragma once
 
 #include "../raylib-6.0_linux_amd64/include/raylib.h"
-#include "enemy.h"
+#include "guns.h"
+
+class EnemyManager;
+class Map;
 
 const int steeps = 5;
+const int PLAYER_SIZE = 64;
 
 class Player {
 public:
@@ -11,7 +15,7 @@ public:
       : m_health(100), m_endurance(100.0f), m_stamina(100), m_velocity(5.0f),
         m_aim_direction({1.0f, 0.0f}), m_position({0.0f, 0.0f}), num_bullets(0),
         m_active_gun(0),
-        m_hitbox(Rectangle{m_position.x, m_position.y, 64, 64}) {}
+        m_hitbox(Rectangle{m_position.x, m_position.y, (float)PLAYER_SIZE, (float)PLAYER_SIZE}) {}
 
   Player(int health, float endurance, int stamina, float velocity,
          Vector2 aim_direction, Vector2 position, int bullets) {
@@ -22,6 +26,8 @@ public:
     m_aim_direction = aim_direction;
     m_position = position;
     num_bullets = bullets;
+    m_active_gun = 0;
+    m_hitbox = Rectangle{m_position.x, m_position.y, (float)PLAYER_SIZE, (float)PLAYER_SIZE};
   }
 
   ~Player() = default;
@@ -49,7 +55,8 @@ public:
   // void setGun(Gun g) {  }
 
   void draw_player();
-  void update_player(const EnemyManager& enemies);
+  void update_player(const EnemyManager& enemies, const Map& map);
+  void update_collsion(const EnemyManager& enemies, const Map& map); //En un futuro posible ampliacion para comprovar colision con partes del mapa de colision
 
 private:
   int m_health;

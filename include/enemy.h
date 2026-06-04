@@ -12,6 +12,9 @@ enum EnemyState
 };
 
 
+const int ENEMY_SIZE = 64;
+
+
 class Enemy
 {
     public:
@@ -25,7 +28,7 @@ class Enemy
             a.create_pistol();
             m_weapon = a;
             m_state = STOPED;
-            m_hitbox = Rectangle{m_position.x, m_position.y, 64, 64};
+            m_hitbox = Rectangle{m_position.x, m_position.y, (float)ENEMY_SIZE, (float)ENEMY_SIZE};
         }
 
         Rectangle getHitbox() const { return m_hitbox; }

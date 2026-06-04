@@ -23,8 +23,8 @@ class Map
         
         
         Texture2D getTexture() { return m_texture; }
-        int getSizeX() {return size_x;}
-        int getSizeY() {return size_y;}
+        int getSizeX() const {return size_x;}
+        int getSizeY() const {return size_y;}
         RenderTexture2D getRender() { return m_render; }
         const char* getFile() {return m_file; }
 

@@ -8,7 +8,7 @@ void Enemy::enemy_update()
         
 void Enemy::enemy_draw()
 {
-    DrawRectangle(int(m_position.x),int(m_position.y), 64, 64, RED);
+    DrawRectangle(int(m_position.x),int(m_position.y), ENEMY_SIZE, ENEMY_SIZE, RED);
 }
 
 void Enemy::take_damage()

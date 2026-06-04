@@ -88,7 +88,7 @@ int main()
         if (!paused)
         {
             //TODO        
-            player.update_player(m_enemies);
+            player.update_player(m_enemies, m_map);
             m_enemies.update_all();
             cam.target = player.getPosition();
         }
