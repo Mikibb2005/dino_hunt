@@ -63,20 +63,26 @@ int main() {
   // Creamos el mapa
   Map m_map;
   // TODO:falta cargar el grid del mapa y de las paredes
+
+
+  //TODO: crear m_textures en map para poder tener bien el tema de los colores de los tiles, etc.
+  /*
   if(!m_map.load_from_csv("resources/mapa1.csv"))
   {
     printf("Erorr cargando CSV\n");
   }
+  */
 
   // creamos los enemies
   EnemyManager m_enemies;
-  m_enemies.load_resources();
+  //m_enemies.load_resources();
 
   Enemy a1;
   a1 = Enemy();
   m_enemies.add_enemy(a1);
 
   bool paused = false;
+  DisableCursor();
 
   while (!WindowShouldClose() && !close) {
     if (IsKeyPressed(KEY_ESCAPE) ||
@@ -85,7 +91,7 @@ int main() {
 
     if (!paused) {
       m_player.update_player(m_enemies, m_map);
-      // m_player.setHealth(m_player.getHealth() - 1);
+      //m_player.setHealth(m_player.getHealth() - 1);
 
       float angle = m_player.getAngle();
       float pitch = m_player.getPitch();
@@ -93,12 +99,12 @@ int main() {
       m_cam.position = {pos.x, EYE_HEIGHT, pos.y};
       m_cam.target = {m_cam.position.x + cosf(pitch) * cosf(angle), m_cam.position.y + sinf(pitch), m_cam.position.z + cosf(pitch) * sinf(angle)};
 
-      m_enemies.update_all();
+      //m_enemies.update_all(GetFrameTime());
 
     } 
     else 
     {
-      if (pause_menu())
+      if (pause_menu(screen_width, screen_height))
       {
         paused = false;
       }
@@ -110,8 +116,7 @@ int main() {
 
     BeginMode3D(m_cam);
     m_map.draw_paredes();
-    // TODO: dibujar enemigos como billboards
-    // TODO: dibujar los dinos como billboards
+    m_enemies.draw_all();
     EndMode3D();
 
     // TODO: Aqui se dibuja el HUD
@@ -119,7 +124,7 @@ int main() {
 
     if (paused) 
     {
-      draw_pause_menu();
+      draw_pause_menu(screen_width, screen_height);
     }
 
     DrawFPS(screen_width - 80, 10);
@@ -128,6 +133,7 @@ int main() {
   }
 
   // TODO: Unloadear texturas del mapa
+  //m_enemies.unload_resources();
 
   CloseAudioDevice();
   CloseWindow();

@@ -1,14 +1,24 @@
 #include "../include/ui.h"
+#include "../include/options.h"
 
 bool close_game = false;
 int m_selected_option = 0;
+bool in_options = false;
 
 
 bool close_g() { return close_game; }
 
 
-bool pause_menu()
+bool pause_menu(int width, int height)
 {
+    if(in_options)
+    {
+        if(update_options())
+        {
+            in_options = false;
+        }   
+        return false;
+    }
     if(IsKeyPressed(KEY_UP) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_LEFT_FACE_UP))
     {
         m_selected_option--;
@@ -35,7 +45,8 @@ bool pause_menu()
                 //save_game();
                 break;
             case 2: //OPCIONES
-                //game_options();
+                in_options = true;
+                //game_options(width, height);
                 break;
             case 3: //SALIR
                 //dibujar flecha en cuarta pos
@@ -47,21 +58,30 @@ bool pause_menu()
     {
         return true;
     }
+    
     return false;
+
+    
 }
 
 
-void draw_pause_menu()
+void draw_pause_menu(int width, int height)
 {
+    if(in_options)
+    {
+        draw_options(width, height);
+        return;
+    }
     const char* options[] = {"VOLVER AL JUEGO", "GUARDAR PARTIDA", "OPCIONES", "SALIR DEL JUEGO"};
 
-    DrawRectangle(0, 0, 1280, 720, (Color){0,0,0,200});
-    DrawText("PAUSA", 1280/2 - 50, 100, 40, WHITE);
+
+    DrawRectangle(0, 0, width, height, (Color){0,0,0,200});
+    DrawText("PAUSA", width/2 - 50, 100, 40, WHITE);
 
     for(int i = 0; i < num_options; i++)
     {
         Color color = (i == m_selected_option) ? YELLOW : WHITE;
-        DrawText(options[i], 1280/2 - 60, 200 + i * 50, 30, color);
+        DrawText(options[i], 60, 200 + i * 50, 30, color);
     }
 }
 

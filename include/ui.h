@@ -7,9 +7,9 @@
 const int num_options = 4;
 
 
-void draw_pause_menu();
+void draw_pause_menu(int width, int height);
 bool close_g();
-bool pause_menu();
+bool pause_menu(int width, int height);
 
 void draw_hud(int height, int width, Gun g, int health);
 

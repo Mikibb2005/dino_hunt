@@ -17,7 +17,10 @@ class Map
     public:
         Map()
         {
-            // MIGRACIÓN: Inicializar el grid del mapa aquí
+            size_x = 16;
+            size_y = 16;
+
+            m_grid.resize(size_y, std::vector<int>(size_x, 0));
             for (int x = 0; x < size_x; x++)
             {
                 for (int z = 0; z < size_y; z++)

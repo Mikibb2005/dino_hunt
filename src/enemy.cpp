@@ -1,9 +1,12 @@
 #include "../include/enemy.h"
 #include <cstddef>
 
-void Enemy::enemy_update(float deltaTime, ModelAnimation* anims, int animCount) {}
+void Enemy::enemy_update(float deltaTime, ModelAnimation *anims, int animCount) 
+{
+  
+}
 
-void Enemy::enemy_draw(Model& model, ModelAnimation* anims, int animCount) 
+void Enemy::enemy_draw(Model &model, ModelAnimation *anims, int animCount) 
 {
   // TODO: DrawBillboardRec();
   //    1. Calcular ángulo relativo jugador→enemigo vs m_facing_angle
@@ -12,12 +15,15 @@ void Enemy::enemy_draw(Model& model, ModelAnimation* anims, int animCount)
   //    4. DrawBillboardRec(camera, spritesheet, srcRect, pos3D, size, WHITE)
 }
 
-void Enemy::take_damage() {}
+void Enemy::take_damage() 
+{
+
+}
 
 bool Enemy::is_dead() 
 {
-  if (m_health <= 0) 
-  {
+  if (m_health <= 0) {
+
     return true;
   }
   return false;
@@ -39,4 +45,7 @@ void EnemyManager::draw_all()
   }
 }
 
-void EnemyManager::check_hits() {}
+void EnemyManager::check_hits() 
+{
+  
+}
