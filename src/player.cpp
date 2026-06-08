@@ -51,7 +51,6 @@ void Player::update_player(const EnemyManager& enemies, const Map& map/*, const 
     float move_strafe = 0.0f;
 
         
-    // 1. Lectura del Teclado
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
     {
         move_forward += 1.0f;
@@ -69,7 +68,6 @@ void Player::update_player(const EnemyManager& enemies, const Map& map/*, const 
         move_strafe += 1.0f;
     }
 
-    // 2. Lectura del Mando (Stick Izquierdo)
     if (IsGamepadAvailable(0)) 
     {
         float stick_x = GetGamepadAxisMovement(0, GAMEPAD_AXIS_LEFT_X);
@@ -87,7 +85,6 @@ void Player::update_player(const EnemyManager& enemies, const Map& map/*, const 
         }
     }
 
-    // Normalizar el vector de entrada
     float length = std::sqrt(move_forward * move_forward + move_strafe * move_strafe);
     if (length > 1.0f) 
     {
@@ -115,11 +112,10 @@ void Player::update_player(const EnemyManager& enemies, const Map& map/*, const 
         if(m_guns[m_active_gun].can_fire())
         {
             m_guns[m_active_gun].attack();
-            printf("Dispara!!\n");
         }
         else 
         {
-            printf("FALLAAA!!\n");
+            //printf("FALLAAA!!\n");
         }
     }   
     if(IsKeyPressed(KEY_R) || IsGamepadButtonPressed(0, GAMEPAD_BUTTON_RIGHT_FACE_LEFT))

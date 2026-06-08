@@ -46,6 +46,7 @@ public:
   void setEndurance(float endurance) { m_endurance = endurance; }
   void setStamina(int stamina) { m_stamina = stamina; }
   void setVelocity(float velocity) { m_velocity = velocity; }
+  void setGun(int i, Gun g) { m_guns[i] = g; }
 
   void setPosition(Vector2 pos) { m_position = pos; }
   void setPosition(float x, float y) { m_position = {x, y}; }

@@ -28,6 +28,8 @@
 #include "../include/player.h"
 #include "../include/ui.h"
 #include "../raylib-6.0_linux_amd64/include/raylib.h"
+#include "../raylib-6.0_linux_amd64/include/rlgl.h"
+#include <GL/gl.h>
 #include <cstdio>
 #include <math.h>
 
@@ -48,9 +50,13 @@ int main() {
   SetExitKey(0);
   SetTargetFPS(60);
 
+  Gun pistol;
+  pistol.create_pistol();
+
   // Creamos el player
   Player m_player = {};
   m_player.setPosition(500.0f, 600.0f);
+  m_player.setGun(0, pistol);
 
   // camara 3d configurada
   Camera3D m_cam = {};
@@ -60,8 +66,20 @@ int main() {
   m_cam.fovy = 60.0f;
   m_cam.projection = CAMERA_PERSPECTIVE;
 
+  Model armsLeftModel = LoadModel("resources/models/arms_left.glb");
+  Model armsRightModel = LoadModel("resources/models/arms_right.glb");
+
+  Camera3D hudCam = { 0 };
+  hudCam.position = (Vector3){ 0.0f, 0.0f, 0.0f };
+  hudCam.target = (Vector3){ 0.0f, 0.0f, -1.0f };
+  hudCam.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+  hudCam.fovy = 55.0f;
+  hudCam.projection = CAMERA_PERSPECTIVE;
+
+
   // Creamos el mapa
   Map m_map;
+
   // TODO:falta cargar el grid del mapa y de las paredes
 
 
@@ -85,8 +103,7 @@ int main() {
   DisableCursor();
 
   while (!WindowShouldClose() && !close) {
-    if (IsKeyPressed(KEY_ESCAPE) ||
-        (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)))
+    if (IsKeyPressed(KEY_ESCAPE) || (IsGamepadButtonPressed(0, GAMEPAD_BUTTON_MIDDLE_RIGHT)))
       paused = !paused;
 
     if (!paused) {
@@ -119,6 +136,14 @@ int main() {
     m_enemies.draw_all();
     EndMode3D();
 
+    rlDrawRenderBatchActive();
+    glClear(GL_DEPTH_BUFFER_BIT);
+    BeginMode3D(hudCam);
+    Vector3 armsPosition = { 0.2f, -0.3f, -0.5f }; 
+    DrawModel(armsLeftModel, armsPosition, 1.0f, WHITE);
+    DrawModel(armsRightModel, armsPosition, 1.0f, WHITE);
+    EndMode3D();
+
     // TODO: Aqui se dibuja el HUD
     draw_hud(screen_height, screen_width, m_player.getActiveGun(), m_player.getHealth());
 
@@ -134,6 +159,9 @@ int main() {
 
   // TODO: Unloadear texturas del mapa
   //m_enemies.unload_resources();
+  UnloadModel(armsLeftModel);
+  UnloadModel(armsRightModel);
+
 
   CloseAudioDevice();
   CloseWindow();

@@ -122,6 +122,28 @@ void draw_weapon(int height, int width, Gun g)
     int x = width * 0.2109375;
     int y = height * 0.13888889;
     DrawRectangle(px, height - py - y, x, y, Color{0,0,0,100});
+
+    switch (g.getType()) 
+    {
+        case NONE:
+            DrawText("NO GUN!!",px + 10 , height - py - 60  , 20, WHITE);
+            DrawText("0 / 0",px + 10 , height - py - 35  , 20, WHITE);
+            break;
+        case PISTOL:
+            DrawText("Pistol",px + 10 , height - py - 60  , 20, WHITE);
+            DrawText(TextFormat("%i / %i", g.getAmmo(), g.getChargerSize()), px + 10, height - py - 35, 20, WHITE);
+            break;
+        case RIFLE:
+            DrawText("Rifle",px + 10 , height - py - 60  , 20, WHITE);
+            DrawText(TextFormat("%i / %i", g.getAmmo(), g.getChargerSize()), px + 10, height - py - 35, 20, WHITE);
+            break;
+        case BAT:
+            DrawText("Bat",px + 10 , height - py - 60  , 20, WHITE);
+            break;
+        case KNIFE:
+            DrawText("Knife",px + 10 , height - py - 60  , 20, WHITE);
+            break;
+    }
 }
 
 void draw_life(int height, int width, int health)

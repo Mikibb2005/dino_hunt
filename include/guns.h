@@ -94,6 +94,7 @@ class Gun
             m_current_ammo = 0;
             m_fire_timer = 0.0f;
             is_realoading = false;
+            m_warning_timer = 0.0f;
             m_gun_type = NO;
 
             m_muzzle_accessory = NONE_Muzzle;
@@ -124,6 +125,10 @@ class Gun
             m_prob_critical = prob_critical;
             m_power = power;
             m_type = type;
+            m_current_ammo = 0;
+            m_fire_timer = 0.0f;
+            is_realoading = false;
+            m_warning_timer = 0.0f;
             m_gun_type = NO;
 
             m_muzzle_accessory = muzzle_accesory;
@@ -212,6 +217,7 @@ class Gun
         Gun_model m_type;
         bool is_realoading;
         float m_fire_timer;
+        float m_warning_timer;
         Gun_type m_gun_type;
 
         // ---- ACCESORIES ----

@@ -1,4 +1,5 @@
 #include "../include/guns.h"
+#include <cstdio>
 
 void Gun::create_knife()
 {
@@ -17,6 +18,7 @@ void Gun::create_knife()
     m_power = NOT;
     m_current_ammo = 0;
     m_fire_timer = 0.0f;
+    m_warning_timer = 0.0f;
     is_realoading = false;
     m_gun_type = MELEE;
 }
@@ -38,6 +40,7 @@ void Gun::create_bat()
     m_power = NOT;
     m_current_ammo = 0;
     m_fire_timer = 0.0f;
+    m_warning_timer = 0.0f;
     is_realoading = false;
     m_gun_type = MELEE;
 }
@@ -47,7 +50,7 @@ void Gun::create_pistol()
     m_type = PISTOL;
 
     m_damage = 20;
-    m_cadence = 3; // 3balas/s
+    m_cadence = 1; // 3balas/s
     m_dispersion = 0;
     m_recoil = 0.5;
     m_scope = 10;
@@ -59,6 +62,7 @@ void Gun::create_pistol()
     m_power = NOT;
     m_current_ammo = 12;
     m_fire_timer = 0.0f;
+    m_warning_timer = 0.0f;
     is_realoading = false;
     m_gun_type = RANGED;
 }
@@ -80,6 +84,7 @@ void Gun::create_rifle()
     m_power = NOT;
     m_current_ammo = 20;
     m_fire_timer = 0.0f;
+    m_warning_timer = 0.0f;
     is_realoading = false;
     m_gun_type = RANGED;
 }
@@ -88,11 +93,13 @@ void Gun::attack()
 {
     if(m_gun_type == RANGED)
     {
+        printf("Dispara!!\n");
         m_current_ammo--;
         m_fire_timer = 1.0f / m_cadence;
     }
     else if(m_gun_type == MELEE)
     {
+        printf("Pega!!\n");
         m_fire_timer = 1.0f / m_cadence;
     }
 }
@@ -113,10 +120,38 @@ bool Gun::can_fire()
     {
         return m_fire_timer <= 0.0f;
     }
-    else
+    
+    if (m_gun_type == RANGED)
     {
-        return m_current_ammo > 0 && m_fire_timer <= 0.0f && !is_realoading;
+        if (is_realoading)
+        {
+            if (m_warning_timer <= 0.0f)
+            {
+                printf("¡Recargando! Espera a que termine la recarga...\n");
+                m_warning_timer = 0.5f; // Evitar spam
+            }
+            return false;
+        }
+        
+        if (m_current_ammo <= 0)
+        {
+            if (m_warning_timer <= 0.0f)
+            {
+                printf("¡Sin balas! Presiona 'R' para recargar.\n");
+                m_warning_timer = 0.5f; // Evitar spam
+            }
+            return false;
+        }
+        
+        if (m_fire_timer > 0.0f)
+        {
+            return false; // Cadencia de disparo (cooldown silencioso)
+        }
+        
+        return true;
     }
+    
+    return false;
 }
 
 void Gun::update_gun(float delta)
@@ -124,6 +159,11 @@ void Gun::update_gun(float delta)
     if (m_fire_timer > 0.0f)
     {
         m_fire_timer -= delta;
+    }
+
+    if (m_warning_timer > 0.0f)
+    {
+        m_warning_timer -= delta;
     }
 
     if (is_realoading && m_fire_timer <= 0.0f)
